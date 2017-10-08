@@ -14,13 +14,37 @@ public class IOReadTool {
 		return reader.readLine();
 	}
 	
-	public static String readContent(InputStream is) throws Exception {
+	public static String readContentBaisc(InputStream is) throws Exception {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		int ins;
 		byte[] b = new byte[DEFAULT_BUFFERED_LENGTH];
 		while((ins = is.read(b)) != -1) {
 			baos.write(b, 0, ins);
 		}
+		b = null;
+		return baos.toString();
+	}
+
+	public static String readContent(InputStream is) throws Exception {
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		byte[] b = new byte[DEFAULT_BUFFERED_LENGTH];
+		int ins = is.read(b);
+		baos.write(b, 0, ins);
+		while(ins == DEFAULT_BUFFERED_LENGTH) {
+			ins = is.read(b);
+			if(ins == -1) break;
+			baos.write(b, 0, ins);
+		}
+		b = null;
+		return baos.toString();
+	}
+	
+	public static String readContent(InputStream is, int bufferLength) throws Exception {
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		int ins;
+		byte[] b = new byte[bufferLength];
+		ins = is.read(b);
+		baos.write(b, 0, ins);
 		return baos.toString();
 	}
 }

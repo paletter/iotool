@@ -3,6 +3,7 @@ package com.paletter.iotool;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -114,5 +115,30 @@ public class IOFileTool {
 			fco.write(buffer);
 			fco.force(false);
 		}
+	}
+	
+	public static void writeFile(String content, File destFile) throws IOException {
+		
+		FileOutputStream fos = new FileOutputStream(destFile);
+		FileChannel fco = fos.getChannel();
+		
+		byte[] bytes = content.getBytes();
+		fco.write(ByteBuffer.wrap(bytes));
+		
+		fos.close();
+	}
+	
+	public static void writeFile(String content, String destFilePath) throws IOException {
+
+		FileWriter fw = new FileWriter(destFilePath, true);
+		fw.write(content);
+		fw.close();
+	}
+	
+	public static void writeFileLn(String content, String destFilePath) throws IOException {
+		
+		FileWriter fw = new FileWriter(destFilePath, true);
+		fw.write(content + "\n");
+		fw.close();
 	}
 }
